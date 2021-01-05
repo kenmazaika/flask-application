@@ -1,6 +1,7 @@
 import os
 
-from flask import Flask
+from flask import ( Flask, g, render_template )
+from markupsafe import escape
 
 def create_app(test_config=None):
   app = Flask(__name__, instance_relative_config=True)
@@ -19,9 +20,12 @@ def create_app(test_config=None):
   except OSError:
     pass
 
-  @app.route('/hello')
-  def hello():
-    return "Hello, World!!!3@"  
+  @app.route('/')
+  def index():
+    username = None
+    if g.user:
+      username = g.user['username']
+    return render_template('index.html', username=username) 
 
 
   from . import db
