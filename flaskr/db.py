@@ -11,7 +11,11 @@ def get_db():
       detect_types=sqlite3.PARSE_DECLTYPES
     )
     g.db.row_factory = sqlite3.Row
+    print("outputting the db")
+    print(g.db)
+    return g.db
 
+  else:
     return g.db
 
 def close_db(e=None):
