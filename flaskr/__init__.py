@@ -1,10 +1,13 @@
 import os
 
-from flask import ( Flask, g, render_template )
+from flask import ( Flask, g, render_template, redirect, url_for )
 from markupsafe import escape
+
 
 def create_app(test_config=None):
   app = Flask(__name__, instance_relative_config=True)
+  app.test_config = test_config
+
   app.config.from_mapping(
     SECRET_KEY='dev',
     DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -22,11 +25,7 @@ def create_app(test_config=None):
 
   @app.route('/')
   def index():
-    username = None
-    if g.user:
-      username = g.user['username']
-    return render_template('index.html', username=username) 
-
+    return redirect(url_for('blog.index'))
 
   from . import db
   db.init_app(app)
